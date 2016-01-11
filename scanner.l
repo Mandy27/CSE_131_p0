@@ -45,7 +45,6 @@ struct yyltype yylloc; // manually dclared for pp1, later Yacc provides
  */
 static void DoBeforeEachAction(); 
 #define YY_USER_ACTION DoBeforeEachAction();
-
 %}
 
  /* The section before the first %% is the Definitions section of the lex
@@ -59,7 +58,11 @@ static void DoBeforeEachAction();
 %%             /* BEGIN RULES SECTION */
  /* All patterns and actions should be placed between the start and stop
   * %% markers which delimit the Rules section. 
-  */ 
+  */
+\n {yylloc.first_line++;} 
+"true" {yylval.boolConstant = true; return T_BoolConstant;}
+"false" {yylval.boolConstant = false; return T_BoolConstant;}
+[A-Za-z]+ {strcpy(yylval.identifier,yytext); return T_Identifier;}
 
 %%
 /* The closing %% above marks the end of the Rules section and the beginning
@@ -84,6 +87,7 @@ static void DoBeforeEachAction();
 void InitScanner()
 {
     PrintDebug("lex", "Initializing scanner");
+    yylloc.first_line = 1;
     yy_flex_debug = false;
 }
 
@@ -95,4 +99,6 @@ void InitScanner()
  */
 static void DoBeforeEachAction()
 {
+  yylloc.first_column = 1;
+  yylloc.last_column = yyleng;
 }
