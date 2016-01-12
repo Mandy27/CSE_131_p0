@@ -45,7 +45,6 @@ struct yyltype yylloc; // manually dclared for pp1, later Yacc provides
  */
 static void DoBeforeEachAction(); 
 #define YY_USER_ACTION DoBeforeEachAction();
-
 %}
 
  /* The section before the first %% is the Definitions section of the lex
@@ -59,7 +58,30 @@ static void DoBeforeEachAction();
 %%             /* BEGIN RULES SECTION */
  /* All patterns and actions should be placed between the start and stop
   * %% markers which delimit the Rules section. 
-  */ 
+  */
+[ \t]+                                   {}
+\n                                       {yylloc.first_line++;yylloc.last_column =0;} 
+float                                    {return T_Float;}
+int                                      {return T_Int;}
+out                                      {return T_Out;}
+layout                                   {return T_Layout;}
+in                                       {return T_In;}
+switch                                   {return T_Switch;}
+case                                     {return T_Case;}
+default                                  {return T_Default;}
+while                                    {return T_While;}  
+"++"                                     {return T_Inc;}  
+true                                   {yylval.boolConstant = true; return T_BoolConstant;}
+false                                  {yylval.boolConstant = false; return T_BoolConstant;}
+[A-Za-z]+([0-9]|[A-Za-z])*               {
+						if(yyleng>30 && yyleng <1023) 
+						   strncpy(yylval.identifier,yytext, 30); 
+					        else
+						   strcpy(yylval.identifier,yytext); 
+						return T_Identifier;}
+[+-][0-9]+                               {yylval.integerConstant = atol(yytext); return T_IntConstant;}
+[-+]?[0-9]*\.?[0-9]+([Ee][+-]?[0-9]+)?f* {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
+.                                        {return yytext[0];}
 
 %%
 /* The closing %% above marks the end of the Rules section and the beginning
@@ -84,6 +106,9 @@ static void DoBeforeEachAction();
 void InitScanner()
 {
     PrintDebug("lex", "Initializing scanner");
+    yylloc.first_line = 1;
+    yylloc.first_column =1;
+    yylloc.last_column =0;
     yy_flex_debug = false;
 }
 
@@ -95,4 +120,6 @@ void InitScanner()
  */
 static void DoBeforeEachAction()
 {
+  yylloc.first_column = yylloc.last_column +1;
+  yylloc.last_column = yylloc.first_column +yyleng -1;
 }

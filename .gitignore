@@ -1,0 +1,7 @@
+errors.o
+glc
+lex.yy.c
+lex.yy.o
+main.o
+out.txt
+utility.o
