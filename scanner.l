@@ -61,7 +61,7 @@ static void DoBeforeEachAction();
   */
 [ \t]+                                   {}
 \n                                       {yylloc.first_line++;yylloc.last_column =0;} 
-float                                  {return T_Float;}
+float                                    {return T_Float;}
 int                                      {return T_Int;}
 out                                      {return T_Out;}
 layout                                   {return T_Layout;}
