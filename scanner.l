@@ -71,9 +71,14 @@ case                                     {return T_Case;}
 default                                  {return T_Default;}
 while                                    {return T_While;}  
 "++"                                     {return T_Inc;}  
-true                                     {yylval.boolConstant = true; return T_BoolConstant;}
-false                                    {yylval.boolConstant = false; return T_BoolConstant;}
-[A-Za-z]+([0-9]|[A-Za-z])*               {strcpy(yylval.identifier,yytext); return T_Identifier;}
+true                                   {yylval.boolConstant = true; return T_BoolConstant;}
+false                                  {yylval.boolConstant = false; return T_BoolConstant;}
+[A-Za-z]+([0-9]|[A-Za-z])*               {
+						if(yyleng>30 && yyleng <1023) 
+						   strncpy(yylval.identifier,yytext, 30); 
+					        else
+						   strcpy(yylval.identifier,yytext); 
+						return T_Identifier;}
 [+-][0-9]+                               {yylval.integerConstant = atol(yytext); return T_IntConstant;}
 [-+]?[0-9]*\.?[0-9]+([Ee][+-]?[0-9]+)?f* {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
 .                                        {return yytext[0];}
