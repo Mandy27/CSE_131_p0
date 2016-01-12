@@ -59,7 +59,10 @@ static void DoBeforeEachAction();
  /* All patterns and actions should be placed between the start and stop
   * %% markers which delimit the Rules section. 
   */
-\n {yylloc.first_line++;} 
+[ \t]+ {}
+\n {yylloc.first_line++;yylloc.last_column =0;} 
+";" {}
+"float" {return T_Float;}
 "true" {yylval.boolConstant = true; return T_BoolConstant;}
 "false" {yylval.boolConstant = false; return T_BoolConstant;}
 [A-Za-z]+ {strcpy(yylval.identifier,yytext); return T_Identifier;}
@@ -88,6 +91,8 @@ void InitScanner()
 {
     PrintDebug("lex", "Initializing scanner");
     yylloc.first_line = 1;
+    yylloc.first_column =1;
+    yylloc.last_column =0;
     yy_flex_debug = false;
 }
 
@@ -99,6 +104,6 @@ void InitScanner()
  */
 static void DoBeforeEachAction()
 {
-  yylloc.first_column = 1;
-  yylloc.last_column = yyleng;
+  yylloc.first_column = yylloc.last_column +1;
+  yylloc.last_column = yylloc.first_column +yyleng -1;
 }
