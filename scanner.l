@@ -63,6 +63,7 @@ static void DoBeforeEachAction();
 \n                                       {yylloc.first_line++;yylloc.last_column =0;} 
 float                                    {return T_Float;}
 int                                      {return T_Int;}
+void                                     {return T_Void;}
 out                                      {return T_Out;}
 layout                                   {return T_Layout;}
 in                                       {return T_In;}
@@ -74,13 +75,14 @@ while                                    {return T_While;}
 true                                   {yylval.boolConstant = true; return T_BoolConstant;}
 false                                  {yylval.boolConstant = false; return T_BoolConstant;}
 [A-Za-z]+([0-9]|[A-Za-z])*               {
-						if(yyleng>30 && yyleng <1023) 
-						   strncpy(yylval.identifier,yytext, 30); 
+                                                if(yyleng <=31){
+						  strcpy(yylval.identifier,yytext); return T_Identifier;}
+						if(yyleng>31 && yyleng <1023){ 
+						   strncpy(yylval.identifier,yytext, 31); return T_Identifier;} 
 					        else
-						   strcpy(yylval.identifier,yytext); 
-						return T_Identifier;}
-[+-][0-9]+                               {yylval.integerConstant = atol(yytext); return T_IntConstant;}
-[-+]?[0-9]*\.?[0-9]+([Ee][+-]?[0-9]+)?f* {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
+						  ReportError::LongIdentifier(&yylloc,yytext);}
+[+-]?[0-9]+                               {yylval.integerConstant = atol(yytext); return T_IntConstant;}
+[-+]?[0-9]*\.[0-9]+([Ee][+-]?[0-9]+)?f* {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
 .                                        {return yytext[0];}
 
 %%
