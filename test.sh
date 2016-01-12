@@ -3,11 +3,6 @@
 make
 clear
 
-echo "             true.frag"
-./glc < samples/true.frag >out.txt
-diff out.txt ../samples/true.out 
-#cat out.txt
-
 echo
 echo "             badbool.frag"
 ./glc < samples/badbool.frag >out.txt
@@ -46,3 +41,16 @@ echo "             switch.frag"
 ./glc < samples/switch.frag >out.txt
 diff out.txt ../samples/switch.out 
 #cat out.txt
+
+
+echo "             true.frag"
+./glc < samples/true.frag >out.txt
+diff out.txt ../samples/true.out 
+#cat out.txt
+
+
+echo "             while.frag"
+./glc < samples/while.frag >out.txt
+diff out.txt ../samples/while.out 
+#cat out.txt
+
