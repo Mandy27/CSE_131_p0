@@ -61,7 +61,7 @@ static void DoBeforeEachAction();
   */
 [ \t]+                                   {}
 \n                                       {yylloc.first_line++;yylloc.last_column =0;} 
-float                                  {return T_Float;}
+float                                    {return T_Float;}
 int                                      {return T_Int;}
 out                                      {return T_Out;}
 layout                                   {return T_Layout;}
@@ -71,12 +71,13 @@ case                                     {return T_Case;}
 default                                  {return T_Default;}
 while                                    {return T_While;}  
 "++"                                     {return T_Inc;}  
-true                                   {yylval.boolConstant = true; return T_BoolConstant;}
-false                                  {yylval.boolConstant = false; return T_BoolConstant;}
+true                                     {yylval.boolConstant = true; return T_BoolConstant;}
+false                                    {yylval.boolConstant = false; return T_BoolConstant;}
 [A-Za-z]+([0-9]|[A-Za-z])*               {strcpy(yylval.identifier,yytext); return T_Identifier;}
 [+-][0-9]+                               {yylval.integerConstant = atol(yytext); return T_IntConstant;}
 [-+]?[0-9]*\.?[0-9]+([Ee][+-]?[0-9]+)?f* {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
-. {return yytext[0];}
+.                                        {return yytext[0];}
+
 %%
 /* The closing %% above marks the end of the Rules section and the beginning
  * of the User Subroutines section. All text from here to the end of the
