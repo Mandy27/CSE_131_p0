@@ -72,3 +72,8 @@ echo "             while.frag"
 diff out.txt samples/while.out 
 #cat out.txt
 
+
+echo "             singlecomment.frag"
+./glc < samples/singlecomment.frag >out.txt
+diff out.txt samples/singlecomment.out 
+#cat out.txt

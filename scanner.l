@@ -72,7 +72,7 @@ case                                     {return T_Case;}
 default                                  {return T_Default;}
 while                                    {return T_While;}  
 NULL                                     {return T_Null;}
-"++"|--                                  {if (strcmp(yytext,"++")==0) return T_Inc; else return T_Dec;}  
+"++"|"--"                                {if (strcmp(yytext,"++")==0) return T_Inc; else return T_Dec;}  
 true|false                               {yylval.boolConstant = ((strcmp(yytext,"true")==0)?true:false); return T_BoolConstant;}
 [A-Za-z]+([0-9]|[A-Za-z])*               {
                                                 if(yyleng <=31){
@@ -83,8 +83,9 @@ true|false                               {yylval.boolConstant = ((strcmp(yytext,
 						  ReportError::LongIdentifier(&yylloc,yytext);}
 [//]+.*                                  {}
 "[]"					 {return T_Dims;}
-[+-]?[0-9]+                              {yylval.integerConstant = atol(yytext); return T_IntConstant;}
-[-+]?[0-9]*\.[0-9]+([Ee][+-]?[0-9]+)?f*  {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
+"||"				  	 {return T_Or;}
+[0-9]+                              {yylval.integerConstant = atol(yytext); return T_IntConstant;}
+[0-9]*\.[0-9]+([Ee][+-]?[0-9]+)?f*  {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
 .                                        {return yytext[0];}
 
 %%
