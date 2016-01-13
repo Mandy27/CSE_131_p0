@@ -1,5 +1,6 @@
 #!/bin/bash
 
+make clean
 make
 clear
 
@@ -36,7 +37,7 @@ diff out.txt samples/longid.out
 
 echo
 echo "             longid2.frag"
-./glc < samples/longid2.frag >out.txt
+./glc < samples/longid2.frag &>out.txt
 diff out.txt samples/longid2.out 
 #cat out.txt
 
@@ -53,6 +54,12 @@ echo "             switch.frag"
 diff out.txt samples/switch.out 
 #cat out.txt
 
+
+echo
+echo "             test.glsl"
+./glc < samples/test.glsl >out.txt
+diff out.txt samples/test.out 
+#cat out.txt
 
 echo "             true.frag"
 ./glc < samples/true.frag >out.txt

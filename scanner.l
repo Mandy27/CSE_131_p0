@@ -71,9 +71,9 @@ switch                                   {return T_Switch;}
 case                                     {return T_Case;}
 default                                  {return T_Default;}
 while                                    {return T_While;}  
-"++"                                     {return T_Inc;}  
-true                                   {yylval.boolConstant = true; return T_BoolConstant;}
-false                                  {yylval.boolConstant = false; return T_BoolConstant;}
+NULL                                     {return T_Null;}
+"++"|--                                  {(strcmp(yytext,"++")==0)?return T_Inc;:return T_Dec;}  
+true|false                               {yylval.boolConstant = ((strcmp(yytext,"true")==0)?true:false); return T_BoolConstant;}
 [A-Za-z]+([0-9]|[A-Za-z])*               {
                                                 if(yyleng <=31){
 						  strcpy(yylval.identifier,yytext); return T_Identifier;}
