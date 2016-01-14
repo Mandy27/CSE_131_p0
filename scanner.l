@@ -85,7 +85,7 @@ true|false                               {yylval.boolConstant = ((strcmp(yytext,
 "[]"					 {return T_Dims;}
 "||"				  	 {return T_Or;}
 [0-9]+                              {yylval.integerConstant = atol(yytext); return T_IntConstant;}
-[0-9]*\.[0-9]+([Ee][+-]?[0-9]+)?f*  {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
+[0-9]*\.?[0-9]+([Ee][+-]?[0-9]+)?f*  {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
 .                                        {return yytext[0];}
 
 %%
