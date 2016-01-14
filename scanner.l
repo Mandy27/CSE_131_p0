@@ -59,7 +59,8 @@ static void DoBeforeEachAction();
  /* All patterns and actions should be placed between the start and stop
   * %% markers which delimit the Rules section. 
   */
-[ \t]+                                   {}
+[ ]+                                     {}
+\t                                       {yylloc.last_column+=7;}
 \n                                       {yylloc.first_line++;yylloc.last_column =0;} 
 float                                    {return T_Float;}
 int                                      {return T_Int;}
@@ -84,8 +85,9 @@ true|false                               {yylval.boolConstant = ((strcmp(yytext,
 [//]+.*                                  {}
 "[]"					 {return T_Dims;}
 "||"				  	 {return T_Or;}
-[0-9]+                              {yylval.integerConstant = atol(yytext); return T_IntConstant;}
-[0-9]*\.?[0-9]*([Ee][+-]?[0-9]+)?f*  {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
+[0-9]+                                   {yylval.integerConstant = atol(yytext); return T_IntConstant;}
+"."                                      {return yytext[0];}
+[0-9]*\.?[0-9]*([Ee][+-]?[0-9]+)?f*      {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
 .                                        {return yytext[0];}
 
 %%

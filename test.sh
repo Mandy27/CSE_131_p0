@@ -80,3 +80,15 @@ echo "             singleoperator.frag"
 ./glc < samples/singleoperator.frag >out.txt
 diff out.txt samples/singleoperator.out 
 #cat out.txt
+
+
+echo "             floatnumber.frag"
+./glc < samples/floatnumber.frag >out.txt
+diff out.txt samples/floatnumber.out 
+#cat out.txt
+
+
+echo "             tab.frag"
+./glc < samples/tab.frag >out.txt
+diff out.txt samples/tab.out 
+#cat out.txt
