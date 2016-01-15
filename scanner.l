@@ -55,6 +55,11 @@ int comment_caller;
   * entries in the Rules section later. 
   */
 
+  /*
+
+
+  */
+
 %x comment foo
 %%             /* BEGIN RULES SECTION */
  /* All patterns and actions should be placed between the start and stop
@@ -132,7 +137,7 @@ true|false                               {yylval.boolConstant = ((strcmp(yytext,
 
 <comment>[^*\n]*
 <comment>"*"+[^*/\n]*
-<comment>\n           ++yylloc.last_line;
+<comment>[\n]           ++yylloc.last_line;
 <comment>"*"+"/"        BEGIN(comment_caller);
 
 %%
