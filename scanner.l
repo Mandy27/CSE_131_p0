@@ -45,7 +45,6 @@ struct yyltype yylloc; // manually dclared for pp1, later Yacc provides
  */
 static void DoBeforeEachAction(); 
 #define YY_USER_ACTION DoBeforeEachAction();
-int comment_caller;
 %}
 
  /* The section before the first %% is the Definitions section of the lex
@@ -55,17 +54,18 @@ int comment_caller;
   * entries in the Rules section later. 
   */
 
-%x comment foo
+%x comment
 %%             /* BEGIN RULES SECTION */
  /* All patterns and actions should be placed between the start and stop
   * %% markers which delimit the Rules section. 
   */
 
-"/*"         {
-               comment_caller = INITIAL;
-	       BEGIN(comment);
-	     }
+"/*"         BEGIN(comment);
 
+<comment>[^*\n]*
+<comment>"*"+[^*/\n]*
+<comment>\n             ++yylloc.first_line;
+<comment>"*"+"/"        BEGIN(INITIAL);
 [ ]+                                     {}
 \t                                       {yylloc.last_column+=7;}
 \n                                       {yylloc.first_line++;yylloc.last_column =0;} 
@@ -116,7 +116,7 @@ true|false                               {yylval.boolConstant = ((strcmp(yytext,
 						   strncpy(yylval.identifier,yytext, 31); return T_Identifier;} 
 					        else
 						  ReportError::LongIdentifier(&yylloc,yytext);}
-[//]+.*                                  {}
+"//"+.*                                  {}
 "[]"					 {return T_Dims;}
 "||"				  	 {return T_Or;}
 [0-9]+                                   {yylval.integerConstant = atol(yytext); return T_IntConstant;}
@@ -125,15 +125,6 @@ true|false                               {yylval.boolConstant = ((strcmp(yytext,
 .                                        {return yytext[0];}
 
 
-<foo>"/*"    {
-	       comment_caller = foo;
-	       BEGIN(comment);
-	     }
-
-<comment>[^*\n]*
-<comment>"*"+[^*/\n]*
-<comment>\n           ++yylloc.last_line;
-<comment>"*"+"/"        BEGIN(comment_caller);
 
 %%
 /* The closing %% above marks the end of the Rules section and the beginning
