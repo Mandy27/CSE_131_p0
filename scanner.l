@@ -80,6 +80,33 @@ case                                     {return T_Case;}
 default                                  {return T_Default;}
 while                                    {return T_While;}  
 NULL                                     {return T_Null;}
+const                                    {return T_Const;}
+uniform                                  {return T_Uniform;}
+break                                    {return T_Break;}
+continue                                 {return T_Continue;}
+do                                       {return T_Do;}
+for                                      {return T_For;}
+if                                       {return T_If;}
+else                                     {return T_Else;}
+inout                                    {return T_Inout;}
+bool                                     {return T_Bool;}
+mat2                                     {return T_Mat2;}
+mat3                                     {return T_Mat3;}
+mat4                                     {return T_Mat4;}
+vec2                                     {return T_Vec2;}
+vec3                                     {return T_Vec3;}
+vec4                                     {return T_Vec4;}
+ivec2                                    {return T_Ivec2;}
+ivec3                                    {return T_Ivec3;}
+ivec4                                    {return T_Ivec4;}
+bvec2                                    {return T_Bvec2;}
+bvec3                                    {return T_Bvec3;}
+bvec4                                    {return T_Bvec4;}
+uint                                     {return T_Uint;}
+uvec2                                    {return T_Uvec2;}
+uvec3                                    {return T_Uvec3;}
+uvec4                                    {return T_Uvec4;}
+struct                                   {return T_Struct;}
 "++"|"--"                                {if (strcmp(yytext,"++")==0) return T_Inc; else return T_Dec;}  
 true|false                               {yylval.boolConstant = ((strcmp(yytext,"true")==0)?true:false); return T_BoolConstant;}
 [A-Za-z]+([0-9]|[A-Za-z])*               {
