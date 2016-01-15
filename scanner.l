@@ -55,6 +55,11 @@ static void DoBeforeEachAction();
   */
 
 %x comment
+  /*
+
+
+  */
+
 %%             /* BEGIN RULES SECTION */
  /* All patterns and actions should be placed between the start and stop
   * %% markers which delimit the Rules section. 
@@ -123,6 +128,7 @@ true|false                               {yylval.boolConstant = ((strcmp(yytext,
 "."                                      {return yytext[0];}
 [0-9]*\.?[0-9]*([Ee][+-]?[0-9]+)?f*      {yylval.floatConstant = atof(yytext); return T_FloatConstant;}
 .                                        {return yytext[0];}
+
 
 
 
