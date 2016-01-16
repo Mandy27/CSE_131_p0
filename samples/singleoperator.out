@@ -1,6 +1,7 @@
 +            line 1 cols 1-1 is '+' 
 -            line 2 cols 1-1 is '-' 
 *            line 3 cols 1-1 is '*' 
+/            line 4 cols 1-1 is '/'
 %            line 5 cols 1-1 is '%' 
 <            line 6 cols 1-1 is '<' 
 >            line 7 cols 1-1 is '>' 

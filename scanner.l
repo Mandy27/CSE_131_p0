@@ -114,7 +114,7 @@ uvec4                                    {return T_Uvec4;}
 struct                                   {return T_Struct;}
 "++"|"--"                                {if (strcmp(yytext,"++")==0) return T_Inc; else return T_Dec;}  
 true|false                               {yylval.boolConstant = ((strcmp(yytext,"true")==0)?true:false); return T_BoolConstant;}
-[A-Za-z]+([0-9]|[A-Za-z])*               {
+_?[A-Za-z]+([0-9]|[A-Za-z])*               {
                                                 if(yyleng <=31){
 						  strcpy(yylval.identifier,yytext); return T_Identifier;}
 						if(yyleng>31 && yyleng <1023){ 
